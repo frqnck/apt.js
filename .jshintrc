@@ -1,0 +1,17 @@
+{
+  "globals": {
+    "Apt": true
+  },
+  "boss": true,
+  "curly": false,
+  "eqeqeq": false,
+  "asi": true,
+  "eqnull": true,
+  "latedef": false,
+  "noarg": true,
+  "undef": false,
+  "unused": false,
+  "expr": true,
+  "evil": false,
+  "laxbreak": true
+} 

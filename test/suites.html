@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<title>Apt.js - Unit Tests</title>
+	<link rel="stylesheet" href="./libs/qunit.css">
+	<script src="./libs/qunit.js"></script>
+	<script src="./libs/sinon-1.14.1.js"></script>
+	<script src="./fixtures/apt_fixtures.js"></script>
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="apt-fixtures" style="display:none;border:2px dashed red;margin:1em;padding:1em;">
+	  <ul>
+		  <li class="f">foo</li>
+		  <li class="b">bar</li>
+		</ul>
+	  <button id="btn">Click</button>
+	</div>
+
+	<script src="../src/apt-core.js"></script>
+	<script src="../src/apt-src.js"></script>
+
+	<!--[if IE 8]>
+		<script src="../src/apt-shims.js"></script>
+	<![endif]-->
+
+	<!-- test suites -->
+	<base href="./suites/">
+	<script src="apt-core.js"></script>
+	<script src="apt-core_array.js"></script>
+	<script src="apt-event.js"></script>
+	<script src="apt-dom.js"></script>
+	<script src="apt-ajax.js"></script>
+	<script src="apt-src.js"></script>
+</body>
+</html>
