@@ -1,3 +1,10 @@
+// Apt.js
+// (c) 2009-2019 Franck Cassedanne (frqnck)
+// MIT license.
+
+// load sinon.js mockup server
+$.src("https://cdnjs.cloudflare.com/ajax/libs/sinon.js/7.3.2/sinon.min.js");
+
 $.fn.parent = function() {
   return (this.length<2) ? $(this[0].parentNode): [];
 };
@@ -8,119 +15,140 @@ $.fn.remove = function() {
   })
 };
 
-var files = {
-  js: basePath+'/fixtures/file.js',
-  css: basePath+'/fixtures/file.css'
-};
+var _apt = {},
+    files = {
+      js: basePath + '/fixtures/file.js',
+      css: basePath + '/fixtures/file.css'
+    },
+    rnd = function(file) {
+      return file + '?cacheBuster=' + Math.random();
+    };
 
 QUnit.module('apt-src', {
-   setup: function(){},
-   teardown: function(){
+  beforeEach: function() { 
+  },
+  afterEach: function() {
     $("head [src='"+files.js+"'],[href='"+files.css+"']").remove();
-   }
+  }
 });
 
 // ----------------------------------------------------------------------------
 
-test('Add a JavaScript file', function()
+QUnit.test('Add a JavaScript file', function(assert)
 {
-  $.src(files.js);
-
-  equal( $("head script[src='"+files.js+"']").length, 1);
+  var file = rnd(files.js);
+  $.src(file);
+  assert.equal( $("head script[src='"+file+"']").length, 1);
 });
 
 // ----------------------------------------------------------------------------
 
-test('Add a CSS file', function()
+QUnit.test('Add a CSS file', function(assert)
 {
-  $.src(files.css);
-
-  equal( $("head link[href='"+files.css+"']").length, 1);
+  var file = rnd(files.css);
+  $.src(file);
+  assert.equal( $("head link[href='"+file+"']").length, 1);
 });
 
 // ----------------------------------------------------------------------------
 
-test('Add many files in chain', function()
+QUnit.test('Add many files in chain', function(assert)
 {
-  $.src(files.js).src(files.css);
+  var js = rnd(files.js),
+      css = rnd(files.css);
 
-  equal( $("head script[src='"+files.js+"']").length, 1);
-  equal( $("head link[href='"+files.css+"']").length, 1);
+  $.src(js).src(css);
+
+  assert.equal( $("head script[src='"+js+"']").length, 1);
+  assert.equal( $("head link[href='"+css+"']").length, 1);
 });
 
 // ----------------------------------------------------------------------------
 
-test('Add the exact same file many time over', function()
+QUnit.test('Add the exact same file many time over', function(assert)
 {
   $.src(files.js).src(files.js);
   $.src(files.js);
 
-  equal( $("head script[src='"+files.js+"']").length, 3);
+  assert.equal( $("head script[src='"+files.js+"']").length, 3);
 });
 
 // ----------------------------------------------------------------------------
 
-test("All JS files loaded, callback(success == true).", function(assert)
+QUnit.test("All JS files loaded, callback(success == true).", function(assert)
 {
-  expect(1);
+  assert.expect(2);
   var done = assert.async(),
       callback = function(success) {
-        equal( success, true, "should be true!");
+        assert.equal(success, true, "should be true!");
         done();
-        // _apt.debugNull(files.js, success);
+        assert.equal(
+          _apt.loadedFunc(files.js, success),
+          "file: '../fixtures/file.js'), success: true"
+        );
       };
 
+    // var js = rnd(files.js),
+    // css = rnd(files.css);
+
   $.src(
-    files.js, files.js+"?foo", files.js+"?bar",
+    rnd(files.js), rnd(files.js)+"&foo", rnd(files.js)+"&bar",
     callback
   );
 });
 
 // ----------------------------------------------------------------------------
 
-test("One file fail, callback(success == false).", function(assert)
+QUnit.test("One file fail, callback(success == false).", function(assert)
 {
-  expect(1);
+  assert.expect(2);
   var done = assert.async(),
       callback = function(success) {
-        equal( success, false, "should be false!");
+        assert.equal( success, false, "should be false!");
         done();
-        _apt.debugNull(files.js, success);
+        assert.equal(
+          _apt.loadedFunc(files.js, success),
+          "file: '../fixtures/file.js'), success: false"
+        );
       };
   
   $.src(
-    files.js,
-    '/null-never-load.js',
-    files.js+"?foo",
+    rnd(files.js),
+    rnd('/null-never-load.js'),
+    rnd(files.js)+"&foo",
     callback
   );
 });
 
 // ----------------------------------------------------------------------------
 
-test('Callback with CSS files...', function(assert)
+QUnit.test('Callback with CSS files...', function(assert)
 {
   var done1 = assert.async();
   var done2 = assert.async();
   var done3 = assert.async();
-  expect(3);
+  assert.expect(3);
 
   function onceLoaded1(success) {
-    equal( success, true, "success == true, succesfully loaded" );
+    assert.equal( success, true, "success == true, succesfully loaded" );
     done1();
   };
 
   function nullNeverLoad(success) {
-    equal( success, false, "success == false, unsuccessul loaded" );
+    assert.equal( success, false, "success == false, unsuccessul loaded" );
     done2();
   };
 
   function onceLoaded2(success) {
-    equal( success, true, "success == true, succesfully loaded" );
+    assert.equal( success, true, "success == true, succesfully loaded" );
     done3();
   };
 
-  $.src(files.css, onceLoaded1);
-  $.src('null-never-load.css', nullNeverLoad);
-  $.src(files.css, onceLoaded2);
+  $.src(rnd(files.css), onceLoaded1);
+  $.src(rnd('null-never-load.css'), nullNeverLoad);
+  $.src(rnd(files.css), onceLoaded2);
 });
+
+// ----------------------------------------------------------------------------
+
+// QUnit.test('TODO JSONP??', function(assert) {});

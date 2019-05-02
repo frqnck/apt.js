@@ -1,108 +1,111 @@
+// Apt.js
+// (c) 2009-2019 Franck Cassedanne (frqnck)
+// MIT license.
+
 var FOO = ['B', 'A', 'R'];
 
 QUnit.module('apt-core_array', {
-	setup: function()
+	beforeEach: function()
 	{
-    _apt = {
-    	elements: $(FIXTURE_UL),
-    }
+    this.elements = $("#apt-fixtures UL > *");
 	},
-  // teardown: function() {}
+  // afterEach: function() {}
 });
 
-test('$() is instance of Array', function()
+QUnit.test('$() is instance of Array', function(assert)
 {
-	ok(_apt.elements instanceof Array);
-	equal(_apt.elements.length, 2);
+	assert.ok($("#apt-fixtures UL > *") instanceof Array);
+	assert.equal($("#apt-fixtures UL > *").length, 2);
 });
 
-test('$().push() and $().pop()', function()
+QUnit.test('$().push() and $().pop()', function(assert)
 {
-	deepEqual( _apt.elements.push(FOO), 3 );
-	deepEqual( _apt.elements.pop(), FOO );
+	assert.deepEqual( this.elements.push(FOO), 3 );
+	assert.deepEqual( this.elements.pop(), FOO );
 });
 
-test('$().shift() and $().unshift()', function()
+QUnit.test('$().shift() and $().unshift()', function(assert)
 {
-	deepEqual( _apt.elements.unshift(FOO), 3 );
-	deepEqual( _apt.elements.shift(FOO), FOO );
+	assert.deepEqual( this.elements.unshift(FOO), 3 );
+	assert.deepEqual( this.elements.shift(FOO), FOO );
 });
 
 // TODO: check fill IE8 complience!
-test('$().slice()', function()
+QUnit.test('$().slice()', function(assert)
 {
-	deepEqual( _apt.elements.slice(0,1), [_apt.elements[0]] );
-	deepEqual( _apt.elements.slice(1,2), [_apt.elements[1]] );
+	assert.deepEqual( this.elements.slice(0,1), [this.elements[0]] );
+	assert.deepEqual( this.elements.slice(1,2), [this.elements[1]] );
 
-	// var last = _apt.elements.slice(-1)[0];
-	// ok( last.id == 't2', "Should return the last element id" );
+	// var last = this.elements.slice(-1)[0];
+	// assert.ok( last.id == 't2', "Should return the last element id" );
 });
 
-test('$().splice()', function()
+QUnit.test('$().splice()', function(assert)
 {
-	deepEqual( _apt.elements.splice(0,0, FOO), [] );
-	deepEqual( _apt.elements.splice(0,1), [FOO] );
-	deepEqual( _apt.elements.sort(), _apt.elements.reverse().reverse() );
+	assert.deepEqual( this.elements.splice(0,0, FOO), [] );
+	assert.deepEqual( this.elements.splice(0,1), [FOO] );
+	assert.deepEqual( this.elements.sort(), this.elements.reverse().reverse() );
 });
 
-test('$().sort() and $().reverse()', function()
+QUnit.test('$().sort() and $().reverse()', function(assert)
 {
-	deepEqual( _apt.elements.sort(), _apt.elements.reverse().reverse() );
+	assert.deepEqual( this.elements.sort(), this.elements.reverse().reverse() );
 });
 
-test('$().concat()', function()
+QUnit.test('$().concat()', function(assert)
 {
-	equal( _apt.elements.concat(FOO).length, 4 );
-	equal( _apt.elements.length, 2, "Should stayed untouched after previous concat()");
+	assert.equal( this.elements.concat(FOO).length, 4 );
+	assert.equal( this.elements.length, 2, "Should stayed untouched after previous concat()");
 });
 
-test('$().join()', function()
+QUnit.test('$().join()', function(assert)
 {	
-	deepEqual( $(FOO).join(', '), 'B, A, R');
+	assert.deepEqual( $(FOO).join(', '), 'B, A, R');
 });
 
-test('$().forEach()', function()
+QUnit.test('$().forEach()', function(assert)
 {
-	_apt.elements.forEach(function(p, i) {
-		ok(p === _apt.elements[i]);
+	var self = this;
+	this.elements.forEach(function(p, i) {
+		assert.ok(p === self.elements[i]);
 	});
 
-	_apt.elements.forEach(function(e, i, r){
+	this.elements.forEach(function(e, i, r){
 		e.foo = "bar"
 	});
-	ok( _apt.elements[0].foo === _apt.elements[1].foo );
+	assert.ok( this.elements[0].foo === this.elements[1].foo );
 });
 
-test('$().map()', function()
+QUnit.test('$().map()', function(assert)
 {
 	var numbers = [1, 4, 9],
 		roots = $(numbers).map(Math.sqrt);
 
-	deepEqual( roots.slice(), [1,2,3] );
-	deepEqual( numbers, [1, 4, 9], "numbers array stay intact" );
+	assert.deepEqual( roots.slice(), [1,2,3] );
+	assert.deepEqual( numbers, [1, 4, 9], "numbers array stay intact" );
 
-	var txts = _apt.elements.map(function(e){ return e.innerHTML } );
-	deepEqual( txts.slice(), ['foo', 'bar'] );
+	var txts = this.elements.map(function(e){ return e.innerHTML } );
+	assert.deepEqual( txts.slice(), ['foo', 'bar'] );
 });
 
-test('$().every()', function()
+QUnit.test('$().every()', function(assert)
 {
 	var	hasClass = function(e){return e.hasAttribute('class')};
-	deepEqual(_apt.elements.every( hasClass ), true, "All elements have a 'class' attribute.");
-	_apt.elements[0].removeAttribute('class');
-	deepEqual(_apt.elements.every( hasClass ), false, "One element has no 'class' attribute.");
+	assert.deepEqual(this.elements.every( hasClass ), true, "All elements have a 'class' attribute.");
+	this.elements[0].removeAttribute('class');
+	assert.deepEqual(this.elements.every( hasClass ), false, "One element has no 'class' attribute.");
 });
 
-test('$().some()', function()
+QUnit.test('$().some()', function(assert)
 {
 	function isBiggerThan10(element, index, array) {
 	  return element > 10;
 	}
-	deepEqual($([2, 5, 8, 1, 4]).some(isBiggerThan10), false );
-	deepEqual($([12, 5, 8, 1, 4]).some(isBiggerThan10), true );
+	assert.deepEqual($([2, 5, 8, 1, 4]).some(isBiggerThan10), false );
+	assert.deepEqual($([12, 5, 8, 1, 4]).some(isBiggerThan10), true );
 });
 
-test('$(array).filter()', function()
+QUnit.test('$(array).filter()', function(assert)
 {
 	var numbers = [12, 5, 8, 130, 44, 10],
 		 	expected = [12, 130, 44];
@@ -110,50 +113,50 @@ test('$(array).filter()', function()
 	function above10(e){ return e > 10 }
 	
 	var native_version = numbers.filter(above10);
-	deepEqual( native_version, expected );
+	assert.deepEqual( native_version, expected );
 
 	var dollar_version = $(numbers).filter(above10);
-	deepEqual( dollar_version, expected );
+	assert.deepEqual( dollar_version, expected );
 });
 
-test('$().filter(function)', function()
+QUnit.test('$().filter(function)', function(assert)
 {
-	var filtered = _apt.elements.filter(function(e){
+	var filtered = this.elements.filter(function(e){
 		return e.getAttribute('class') == 'b'
 	});
-	equal( $(filtered)[0], _apt.elements[1] );
+	assert.equal( $(filtered)[0], this.elements[1] );
 });
 
-test('$().indexOf()', function()
+QUnit.test('$().indexOf()', function(assert)
 {
 	var r = [2, 5, 9];
-	deepEqual( $(r).indexOf(2), 0);
-	deepEqual( $(r).indexOf(7), -1);
-	deepEqual( $(r).indexOf(9), 2);
-	deepEqual( $(r).indexOf(2, -1), -1);
-	deepEqual( $(r).indexOf(2, -3), 0);
+	assert.deepEqual( $(r).indexOf(2), 0);
+	assert.deepEqual( $(r).indexOf(7), -1);
+	assert.deepEqual( $(r).indexOf(9), 2);
+	assert.deepEqual( $(r).indexOf(2, -1), -1);
+	assert.deepEqual( $(r).indexOf(2, -3), 0);
 
-	deepEqual( _apt.elements.indexOf(_apt.elements[1]), 1 );
+	assert.deepEqual( this.elements.indexOf(this.elements[1]), 1 );
 	
 	// TODO check this out!
-	var last = _apt.elements.indexOf(1,1);
-	deepEqual( last, -1 );
+	var last = this.elements.indexOf(1,1);
+	assert.deepEqual( last, -1 );
 });
 
-test('$().reduce()', function()
+QUnit.test('$().reduce()', function(assert)
 {
 	var r1 = [0,1,2,3],
 		  r2 = [[0,1],[2,3]];
 
-	deepEqual($(r1).reduce(function(a,b){return a+b}), 6);
-	deepEqual($(r2).reduce(function(a,b){return a.concat(b)}), r1);
+	assert.deepEqual($(r1).reduce(function(a,b){return a+b}), 6);
+	assert.deepEqual($(r2).reduce(function(a,b){return a.concat(b)}), r1);
 
 	// duplicate an elements (clone)
-	_apt.elements.push( _apt.elements.slice(0) );
-	_apt.elements[2].innerHTML = 'biz';
+	this.elements.push( this.elements.slice(0) );
+	this.elements[2].innerHTML = 'biz';
 
 	// elements
-	deepEqual( _apt.elements.reduce(
+	assert.deepEqual( this.elements.reduce(
 		function(memo, e, i, r){
 			memo[i] = e.innerHTML;
 			return memo;
@@ -161,7 +164,7 @@ test('$().reduce()', function()
 	), ['foo', 'bar', 'biz'] );
 });
 
-test('$().reduce() as per PHP', function()
+QUnit.test('$().reduce() as per PHP', function(assert)
 {
 	var sum = function(carry, item){
 	    		carry += item; return carry;
@@ -171,24 +174,24 @@ test('$().reduce() as per PHP', function()
 			},
 			a = [1,2,3,4,5];
 
-	deepEqual( $(a).reduce(sum), 15);
-	deepEqual( $(a).reduce(multiply, 10), 1200, "=> 10*1*2*3*4*5=1200");
+	assert.deepEqual( $(a).reduce(sum), 15);
+	assert.deepEqual( $(a).reduce(multiply, 10), 1200, "=> 10*1*2*3*4*5=1200");
 
 	var s = "Empty array, no data to reduce"
-	deepEqual( $([]).reduce(sum, s), s);
+	assert.deepEqual( $([]).reduce(sum, s), s);
 
-	var f = function(){}
-	deepEqual( $().reduce(sum, f), f);
+	var f = function(assert){}
+	assert.deepEqual( $().reduce(sum, f), f);
 });
 
-test('$().unique()', function()
+QUnit.test('$().unique()', function(assert)
 {
 	// duplicate an elements (shallow)
-	_apt.elements.push(_apt.elements[0]);
+	this.elements.push(this.elements[0]);
 
-	deepEqual( _apt.elements.length, 3);
+	assert.deepEqual( this.elements.length, 3);
 
-	$.fn.unique = function() {
+	$.fn.unique = function(assert) {
 	    return this.reduce(function(u, c) {
 	        if(u.indexOf(c)==-1)
 	        	u.push(c);
@@ -197,6 +200,6 @@ test('$().unique()', function()
 	};
 
 	// reduce to unique elements
-	deepEqual( _apt.elements.unique().length, 2 );
-	deepEqual( _apt.elements.unique(), $(FIXTURE_UL) );
+	assert.deepEqual( this.elements.unique().length, 2 );
+	assert.deepEqual( this.elements.unique(), $("#apt-fixtures UL > *") );
 });

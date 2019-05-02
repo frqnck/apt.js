@@ -1,90 +1,81 @@
+// Apt.js
+// (c) 2009-2019 Franck Cassedanne (frqnck)
+// MIT license.
+
 $.src("../../src/apt-event.js");
 
 QUnit.module('apt-event',
 {
-  setup: function()
-  {
-    _apt = {
-      elements: $(FIXTURE_UL),
-      buttons: $(FIXTURE_ID + ' button'),
-      counter: 0,
-      increaseCounter: function(){ _apt.counter++ }
-    }
+  beforeEach: function(assert) {
+    var counter = {
+      elements: $('#apt-fixtures UL > *'),
+      button: $('#apt-fixtures button'),
+      log: 0,
+      increase: function() {
+        counter.log++;
+      }
+    };
+
+    this.counter = counter;
   },
-  teardown: function()
+  afterEach: function(assert)
   {
-    _apt.buttons.off('click', _apt.increaseCounter);
+    this.counter.button.off('click', this.counter.increase);
   }
 });
 
-test('on() method is like addEventListener()', function()
-{
-  _apt.buttons.on('click', _apt.increaseCounter);
+QUnit.test('on() method is like addEventListener()', function(assert) {
+  this.counter.button.on('click', this.counter.increase);
   
-  equal(_apt.counter, 0);
-  _apt.buttons[0].click();
-  equal(_apt.counter, 1);
+  assert.equal(this.counter.log, 0);
+  this.counter.button[0].click();
+  this.counter.button[0].click();
+  assert.equal(this.counter.log, 2);
 });
 
-test('off() method is like removeEventListener()', function ()
-{
-  _apt.buttons.on('click', _apt.increaseCounter);
+QUnit.test('off() method is like removeEventListener()', function(assert) {
+  this.counter.button.on('click', this.counter.increase);
 
-  _apt.buttons[0].click();
-  equal(_apt.counter, 1);
+  this.counter.button[0].click();
+  assert.equal(this.counter.log, 1);
 
-  _apt.buttons.off('click', _apt.increaseCounter);
+  this.counter.button.off('click', this.counter.increase);
 
-  _apt.buttons[0].click();
-  equal(_apt.counter, 1, "Should still be just one");
+  this.counter.button[0].click();
+  assert.equal(this.counter.log, 1, "Should still be just one");
 });
 
-test('on() and off() should be chainable.', function()
-{
-  var noop = function(){};
-  ok(
-    _apt.elements.each(noop)
-      .on('click', noop)
-      .off('click', noop)
-    === _apt.elements
+QUnit.test('on() and off() should be chainable', function(assert) {
+  var noop = function() {};
+  assert.deepEqual(
+    $("#apt-fixtures UL > *").each(noop).on('click', noop).off('click', noop),
+    $("#apt-fixtures UL > *")
   );
 });
 
+QUnit.test("Keyboard events loggin", function(assert) {
+  function KeyLogger(target) {
+    this.target = target;
+    this.logs = [];
+   
+    var self = this;
+    this.target.off("keydup").on("keydown", function(event){
+      self.logs.push(event.keyCode);
+    });
+  }
 
-
-// // jQuery
-// function KeyLogger(target){
-//   this.target = target;
-//   this.log = [];
+  var $doc = $(document),
+      keys = new KeyLogger($doc);
  
-//   var that = this;
-//   this.target.off("click").on("click", function(event) {
-//     that.log.push( event.keyCode );
-//   });
-// }
+  assert.deepEqual(keys.logs, [], "should be an empty array");
 
-// QUnit.test("keylogger api behavior", function( assert ) {
-//   var $doc = $(document),
-//       keys = new KeyLogger($doc);
- 
-//    assert.deepEqual(keys.log, [], "should be an empty array");
+  var event = document.createEvent('Event');
+  event.initEvent('keydown', true, true);
+  event.keyCode = 9;
+  document.dispatchEvent(event);
 
+  event.keyCode = 65;
+  document.dispatchEvent(event);
 
-//   // Trigger the key event
-
-//   // doc.trigger( $.Event( "keydown", { keyCode: 9 } ) );
-//   // var onKeydownFunc = function(e){
-//   //   console.log('onKeydownFunc');
-//   // };
-//   // $doc.on('click', onKeydownFunc);
-
-//   // $doc.on('keydown', onKeydownFunc);
-
-  
-//   $doc.click( { keyCode: 9 } );
-
-//   // DOC = $doc;
- 
-//   // Verify expected behavior
-//   assert.deepEqual(keys.log, [9], "Correct[key] was logged.");
-// });
+  assert.deepEqual(keys.logs, [9,65], "The correct keys were logged.");
+});

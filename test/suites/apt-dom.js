@@ -1,108 +1,118 @@
+// Apt.js
+// (c) 2009-2019 Franck Cassedanne (frqnck)
+// MIT license.
+
 $.src("../../src/apt-dom.js");
 
 // ----------------------------------------------------------------------------
 
 QUnit.module('apt-dom', {
-  setup: function(){
-    $('#apt-fixtures').html('<ul><li class="f">foo</li><li class="b">bar</li></ul><button id="btn">Click</button>')
+  beforeEach: function(){
+    var h = '<ul><li class="f">foo</li><li class="b">bar</li></ul><button id="btn">Click</button>';
+    $('#apt-fixtures').html(h);
   },
-  teardown: function(){
-    $('#apt-fixtures').html('');
+  afterEach: function(){
+    // $('#apt-fixtures').html('');
   }
 });
 
-(function () {
+(function() {
   'use strict';
 
-  test('Query the dom', 1, function () {
-    ok($('ul li').length === 2);
+  QUnit.test('Query the dom', function(assert) {
+    assert.deepEqual($('#apt-fixtures ul li').length, 2);
   });
 
-  test('Fail silently for unmatched elements', 2, function () {
-    ok($(null).length === 0);
-    ok($('asd').length === 0);
+  QUnit.test('Fail silently for unmatched elements', function(assert) {
+    assert.ok($(null).length === 0);
+    assert.ok($('asd').length === 0);
   });
 
-  test('Wrap a DOM element with $', 1, function () {
+  QUnit.test('Wrap a DOM element with $', function(assert) {
 
-    ok($(document.getElementById('btn')) instanceof $);
+    assert.ok($(document.getElementById('btn')) instanceof $);
   });
 
-  test('Ready method', 1, function () {
+  QUnit.test('Ready method', function(assert) {
     $(function() {
-      ok(true === true);
+      assert.ok(true === true);
     });
   });
 
-  test('Iterate through all matched elements', 2, function () {
-    $('ul li').each(function (p, i) {
-      ok(p === $('ul li')[i]);
+  QUnit.test('Iterate through all matched elements', function(assert) {
+    $('#apt-fixtures ul li').each(function(p, i) {
+      assert.ok(p === $('#apt-fixtures ul li')[i]);
     });
   });
 
-  test('Understands CSS selector', function() {
-    equal( $('#btn')[0], document.getElementById('btn') );
+  QUnit.test('Understands CSS selector', function(assert) {
+    assert.deepEqual( $('#btn')[0], document.getElementById('btn') );
   
     var el = $().html();
-    ok( el.length == 0 );
-    // var el = $('button').html();
+    assert.deepEqual(el.length, 0);
   });
 
-  // test('html() returns innerHTML', function() {
+  QUnit.test('html() returns innerHTML', function(assert) {
+    assert.deepEqual( $('#btn').html(), document.getElementById('btn').innerHTML );
+  });
 
-  //   console.log( $('#btn').html() );
-  //   equal( $('#btn').html(), document.getElementById('btn').innerHTML );
-  
-  // });
+  QUnit.test('html() selector', function(assert) {
+    var h = "<div>",
+    el = $(h);
 
-
-  test('html() Selector', function() {
-    var h = "<div>", el = $(h)
-    ok( el.length == 1 )
-    equal($("<div>")[0].outerHTML, "<div></div>")
+    assert.deepEqual(el.length, 1);
+    assert.deepEqual($("<div>")[0].outerHTML, "<div></div>");
  
-    h = "<div>hello world</div>"
-    el = $(h)
-    ok( el.length == 1 );
-    equal($(h)[0].outerHTML, "<div>hello world</div>")
+    h = "<div>hello world</div>";
+    el = $(h);
+    assert.ok( el.length == 1 );
+    assert.deepEqual($(h)[0].outerHTML, h)
 
     h = "<div>hello</div> <span>world</span>"
     el = $(h)
-    ok( el.length == 2 );
-    equal($(h)[1].outerHTML, "<span>world</span>")
+    assert.ok( el.length == 2 );
+    assert.deepEqual($(h)[1].outerHTML, "<span>world</span>")
 
     h = $("<div></div><div />")
-    equal(h.length, 2)
+    assert.deepEqual(h.length, 2)
   });
 
-  test('addClass() and removeClass()', function() {
-    var el = $('ul li');
-    equal( el[0].className, 'f' );
+  QUnit.test('addClass() and removeClass()', function(assert) {
+    var el = $('#apt-fixtures ul li');
+    assert.deepEqual( el[0].className, 'f' );
 
     el.addClass('on');
-    equal( el[0].className, 'f on' );
+    assert.deepEqual( el[0].className, 'f on' );
 
     el.removeClass('on');
-    equal( el[0].className, 'f' );
+    assert.deepEqual( el[0].className, 'f' );
 
     // el.removeClass('f');
-    // equal( el[0].className, '' );
+    // assert.deepEqual( el[0].className, '' );
   });
 
-  test('css()', function() {
+  QUnit.test('css()', function(assert) {
     var el = $('<div id="x" />');
-    equal( el[0].id, 'x' );
+    assert.deepEqual( el[0].id, 'x' );
     el.css('color', 'red');
-    equal(el[0].style.color, 'red');
+    assert.deepEqual(el[0].style.color, 'red');
   });
 
-  test('css() in legacy mode', function() {
+  QUnit.test('css() in legacy mode', function(assert) {
     $.legacy = true;
     var el = $('<div id="x" />');
-    equal( el[0].id, 'x' );
+    assert.deepEqual( el[0].id, 'x' );
     el.css('color', 'red');
-    equal(el[0].style.color, 'red');
+    assert.deepEqual(el[0].style.color, 'red');
   });
 
+  QUnit.test('$().append() is chainable', function(assert) {
+    var h = '<li>text</li>';
+
+    $("#apt-fixtures ul").append($(h));
+    $("#apt-fixtures ul").append($(h)).append($(h));
+
+    assert.deepEqual( $("#apt-fixtures UL > *").length, 5 );
+  });
 
 }());
