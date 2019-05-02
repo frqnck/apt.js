@@ -30,6 +30,17 @@ module.exports = ->
         files:
           'dist/apt-utils.min.js': ['src/extra/apt-utils.js']
 
+    compress:
+      main:
+        options:
+          mode: 'gzip'
+        files: [
+          expand: true,
+          src: ['dist/*.min.js'],
+          dest: '.',
+          ext: '.min.js.gz'
+        ]
+
     connect:
       rootServer:
         options:
@@ -47,6 +58,7 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-uglify'
   @loadNpmTasks 'grunt-contrib-qunit'
   @loadNpmTasks 'grunt-contrib-connect'
+  @loadNpmTasks 'grunt-contrib-compress'
 
   @registerTask 'build-core', ['uglify:core']
   @registerTask 'build-utils', ['uglify:utils']
