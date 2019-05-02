@@ -8,7 +8,7 @@
      * Apt Ajax.
      * @param {String}   u - URL to request.
      * @param {Function} c - Call back function.
-     * @param {String}   m - The request Method, default GET.
+     * @param {String}   m - The request Method, default GET (passing this value will cancelsend(), manual overide).
      * @param {internal} x - Holds XMLHttpRequest()
      * @static
      */
@@ -47,6 +47,7 @@
             }
         };
 
+        // Will on send the request when the argument `m` is not explicitly passed.
         m||x.send();
         return x;
     }
