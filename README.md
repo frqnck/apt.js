@@ -1,16 +1,16 @@
-
 # :rocket: Apt.js – a few bytes long in-browser library
 
-Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of jQuery without the payload, small enough to be embedded in the firt-byte.
+Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJs* without the payload and – ***it is small enough to be embedded in the firt-byte***.
 
-> We have use this in production on Info.com and other properties since early 2009. It allowed use to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwich consumption...
+> We have use this in production on Info.com and other properties since early 2009. It allowed use to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwich consumption. great with mobile traffic...
 
 ## Usage
 
-Ideally the content of `dist/apt.min.js` would got in the `<head>` of your page right below the CSS declaration however feel free to add it whichever way (inc via a `<script src=..`).
+Ideally the content of `dist/apt.min.js` would got into the `<head>` of your page right below your CSS declaration however feel free to add it whichever way you want.
 
 ```html
 <script>
+  // a short example...
   $(function(){ // wait for the DOM to ready
 
     // Load some files asynchrnously.
@@ -29,7 +29,7 @@ Ideally the content of `dist/apt.min.js` would got in the `<head>` of your page 
 </script>
 ```
 
-Abovee we use the shorthand `$` to invoque `Apt` - Enjoy!
+Above we use the shorthand `$` to invoke `Apt` – enjoy!
 
 ## Apt modules
 
