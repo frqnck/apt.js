@@ -3,7 +3,9 @@
 // MIT license.
 
 // Source apt-ajax.js
-$.src("../../src/apt-ajax.js");
+if(from_src) {
+  $.src("../../src/apt-ajax.js");
+}
 
 // Source sinon.js
 $.src("https://cdnjs.cloudflare.com/ajax/libs/sinon.js/7.3.2/sinon.min.js");
@@ -106,7 +108,7 @@ var XMLHttpRequest;
 
       assert.equal(xhr.method, "POST");
       assert.equal(xhr.requestBody, json_str);
-      assert.equal(xhr.requestHeaders['foo'], 'bar');
+      assert.equal(xhr.requestHeaders.foo, 'bar');
 
       done();
     };
@@ -149,8 +151,8 @@ var XMLHttpRequest;
     var done = assert.async();
     assert.expect(5);
 
-    var ajax_callback = function(data, success, xhr) {
-      var data =  JSON.parse(data);
+    var ajax_callback = function(raw_data, success, xhr) {
+      var data =  JSON.parse(raw_data);
       assert.equal(data.name, 'Franck Cassedanne');
       assert.equal(success, true);
       assert.equal(xhr.status, 200);

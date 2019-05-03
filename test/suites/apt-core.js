@@ -8,24 +8,27 @@ QUnit.module('apt-core',
   // afterEach: function() {}
 });
 
-QUnit.test('check that Apt() is always exposed', function(assert)
+QUnit.test('Apt() - check that it is exposed', function(assert)
 {
   assert.ok( Apt && Apt() );
 });
 
-// Many JavaScript libraries use $ as a function or variable name, just as jQuery does. In jQuery's case, $ is just an alias for jQuery, so all functionality is available without using $. If you need to use another JavaScript library alongside jQuery, return control of $ back to the other library with a call to $.noConflict(). Old references of $ are saved during jQuery initialization; noConflict() simply restores them.
-
-QUnit.test('check that Apt() has a $() alias (if )', function(assert)
+QUnit.test('Apt() - check for $ alias', function(assert)
 {
   assert.deepEqual($, Apt);
   assert.ok( $() instanceof Apt );
 });
 
+QUnit.skip('Apt() - check has a $ alias (only if global $ is unused)', function(assert)
+{
+  // TODO: check alias only if $ unused
+});
+
 QUnit.test('$() acts as a DOM-ready wrapper', function(assert)
 {
   var done = assert.async();
-  // document.readyState = null
-  assert.expect(1); // we have one async test to run
+  document.readyState = false; // TODO that's read only?!
+  assert.expect(1);
   $(function(){
     assert.deepEqual(document.readyState, "complete", "Run once the DOM is fully loaded. Just like jQuery's ready() method.");
     done();
@@ -62,7 +65,7 @@ QUnit.test('$("htmlString") should work', function(assert)
   // assert.equal( $('.bar', DOM[0]).html(), 'foo' );
 });
 
-QUnit.test('Querying the DOM', function(assert)
+QUnit.test('$("..")[0] - querying the DOM', function(assert)
 {
   assert.deepEqual(
     document.getElementById('btn'),
@@ -72,9 +75,26 @@ QUnit.test('Querying the DOM', function(assert)
   assert.equal($("#apt-fixtures UL > *").length, 2);
 });
 
-QUnit.test('Iterates through all matched elements', function(assert)
+QUnit.test('$().foreach() - iterates through all matched elements', function(assert)
 {
 	$("#apt-fixtures UL > *").forEach(function(p, i){
 		assert.ok(p === $("#apt-fixtures UL > *")[i]);
 	})
+});
+
+QUnit.test('$.type() - checks all posssible types', function(assert)
+{
+  assert.equal($.type($()), "$");
+  assert.equal($.type(Apt()), "$");
+  assert.equal($.type(''), "String");
+  assert.equal($.type(64), "Number");
+  assert.equal($.type(true), "Boolean");
+  assert.equal($.type(null), "Null");
+  assert.equal($.type(), "Undefined");
+  assert.equal($.type([]), "Array");
+  assert.equal($.type({}), "Object");
+  assert.equal($.type(function(){}), "Function");
+
+  assert.equal($.type(Error()), "Error");
+  assert.equal($.type(RegExp()), "RegExp");
 });

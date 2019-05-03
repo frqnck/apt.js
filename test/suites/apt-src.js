@@ -2,7 +2,7 @@
 // (c) 2009-2019 Franck Cassedanne (frqnck)
 // MIT license.
 
-// load sinon.js mockup server
+// Source sinon.js mockup server
 $.src("https://cdnjs.cloudflare.com/ajax/libs/sinon.js/7.3.2/sinon.min.js");
 
 $.fn.parent = function() {
@@ -132,17 +132,17 @@ QUnit.test('Callback with CSS files...', function(assert)
   function onceLoaded1(success) {
     assert.equal( success, true, "success == true, succesfully loaded" );
     done1();
-  };
+  }
 
   function nullNeverLoad(success) {
     assert.equal( success, false, "success == false, unsuccessul loaded" );
     done2();
-  };
+  }
 
   function onceLoaded2(success) {
     assert.equal( success, true, "success == true, succesfully loaded" );
     done3();
-  };
+  }
 
   $.src(rnd(files.css), onceLoaded1);
   $.src(rnd('null-never-load.css'), nullNeverLoad);

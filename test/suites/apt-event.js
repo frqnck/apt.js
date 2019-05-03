@@ -2,7 +2,10 @@
 // (c) 2009-2019 Franck Cassedanne (frqnck)
 // MIT license.
 
-$.src("../../src/apt-event.js");
+// Source apt-event.js
+if(from_src) {
+  $.src("../../src/apt-event.js");
+}
 
 QUnit.module('apt-event',
 {
@@ -48,7 +51,7 @@ QUnit.test('off() method is like removeEventListener()', function(assert) {
 QUnit.test('on() and off() should be chainable', function(assert) {
   var noop = function() {};
   assert.deepEqual(
-    $("#apt-fixtures UL > *").each(noop).on('click', noop).off('click', noop),
+    $("#apt-fixtures UL > *").each(noop).on('click', noop).off('hover', noop),
     $("#apt-fixtures UL > *")
   );
 });

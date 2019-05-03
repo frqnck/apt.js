@@ -2,7 +2,10 @@
 // (c) 2009-2019 Franck Cassedanne (frqnck)
 // MIT license.
 
-$.src("../../src/apt-dom.js");
+// Source apt-dom.js
+if(from_src) {
+  $.src("../../src/apt-dom.js");
+}
 
 // ----------------------------------------------------------------------------
 
@@ -91,14 +94,25 @@ QUnit.module('apt-dom', {
     // assert.deepEqual( el[0].className, '' );
   });
 
-  QUnit.test('css()', function(assert) {
-    var el = $('<div id="x" />');
-    assert.deepEqual( el[0].id, 'x' );
-    el.css('color', 'red');
-    assert.deepEqual(el[0].style.color, 'red');
+  QUnit.test('addClass() and removeClass() are chainable', function(assert) {
+    var el = $('#apt-fixtures ul li');
+    el.addClass('foo').addClass('bar');
+    assert.deepEqual( el[0].className, 'f foo bar' );
+
+    el.removeClass('foo').removeClass('bar')
+    assert.deepEqual( el[0].className, 'f' );
   });
 
-  QUnit.test('css() in legacy mode', function(assert) {
+  QUnit.test('css()', function(assert) {
+    var el = $('#apt-fixtures ul').css('color', 'green');
+    assert.deepEqual(el[0].style.color, 'green');
+
+    el = $('#apt-fixtures ul li').css('color', 'red');
+    assert.deepEqual(el[0].style.color, 'red');
+    assert.deepEqual(el[1].style.color, 'red');
+  });
+
+  QUnit.test('css(), legacy mode', function(assert) {
     $.legacy = true;
     var el = $('<div id="x" />');
     assert.deepEqual( el[0].id, 'x' );
@@ -108,10 +122,8 @@ QUnit.module('apt-dom', {
 
   QUnit.test('$().append() is chainable', function(assert) {
     var h = '<li>text</li>';
-
     $("#apt-fixtures ul").append($(h));
     $("#apt-fixtures ul").append($(h)).append($(h));
-
     assert.deepEqual( $("#apt-fixtures UL > *").length, 5 );
   });
 
