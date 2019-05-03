@@ -31,8 +31,7 @@
      * @param {Mix}   arguments - one or many URLs/files to source (css, js, jsonp, ...).
      * @static
      */
-    $.src = function()
-    {
+    $.src = function() {
         var args = arguments,
             toLoad = args.length,  // load this many scripts
             cb = args[toLoad - 1],

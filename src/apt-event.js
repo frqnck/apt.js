@@ -27,25 +27,25 @@
     /**
      * Registers an event listener.
      * @method on
-     * @param {string} a - The event type to listen e.g. 'click'.
-     * @param {function(Object)} b - The listener to call.
+     * @param {string} the - The event type to listen e.g. 'click'.
+     * @param {function(Object)} f - The listener to call.
      * @return {self}
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener}
      */
-    $.fn.on = function (a, b) {
-        return _e(this, a, b, 'add', 'at')
+    $.fn.on = function (t, f) {
+        return _e(this, t, f, 'add', 'at')
     }
 
     /**
      * Removes a previously registered event listener.
      * @method off
-     * @param {string} a - The event type being removed e.g. 'mouseout'.
-     * @param {function(Object)} b - The listener to remove.
+     * @param {string} t - The event type being removed e.g. 'mouseout'.
+     * @param {function(Object)} f - The listener to remove.
      * @return {self}
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener}
      */
-    $.fn.off = function (a, b) {
-        return _e(this, a, b, 'remove', 'de')
+    $.fn.off = function (t, f) {
+        return _e(this, t, f, 'remove', 'de')
     }
      
 })(Apt)

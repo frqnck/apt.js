@@ -7,66 +7,70 @@
     /**
      * Get or set inner HTML.
      * @method html
-     * @param {string}  a - The event type to handle e.g. 'click'.
-     * @return {array}
+     * @param {string|null}  h - The html string to set.
      */
-    // $.fn.html = function (a) {
-    //     return this.each(function (i) {
-    //         a === []._
-    //             ? i.innerHTML
-    //             : i.innerHTML = a;
-    //     });
-    // }
     $.fn.html = function(h) {
-        return 0 in arguments ?
-          this.each(function(i){
-            i.innerHTML = h
-          }) :
-          (0 in this ? this[0].innerHTML : '')
+        return 0 in arguments
+        ? this.each(function(e) {
+            e.innerHTML = h
+          })
+        : 0 in this ? this[0].innerHTML : ''
     }
 
+    /**
+     * Add a class name.
+     * @method addClass
+     * @param {string}  n - The class name  to add.
+     * @return {self}
+     */
     $.fn.addClass = function(n) {
-        this.each(function(e) {
+        return this.each(function(e) {
             e.classList
             ? e.classList.add(n)
             : e.n += ' ' + n;
         })
     }
 
+    /**
+     * Remove a class name.
+     * @method removeClass
+     * @param {string}  n - The class name to remove.
+     * @return {self}
+     */
     $.fn.removeClass = function(n) {
-        this.each(function(e) {
+        return this.each(function(e) {
             e.classList
             ? e.classList.remove(n)
             : e.n = e.n.replace(new RegExp('(^|\\b)' + n.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         })
     }
 
+    /**
+     * Set a style.
+     * @method css
+     * @param {string}  k -
+     * @param {string}  v -
+     * @return {self}
+     */
     $.fn.css = function(k, v) {
-        var c = k + ":", _ = function(e, k, v) {
-          if ($.legacy) {
-            c += v == "inherit" ? "block" : v;
-            e.each(function(e) {
-                e.style.cssText = c + ";";
-            })
-          } else {
-            c += v + ";";
-            e.each(function(e) {
-                if (k == "display") e.style.display = v;
-                else e.setAttribute("style", c);
-            })
-          }
-        };
-        return _(this, k, v);
+        k = k + ":";        
+        return this.each(function(e) {
+            $.legacy // TODO: remove legacy support?
+                ? e.style.cssText = k + (v == "inherit" ? "block" : v)
+                : e.setAttribute("style", k + v);
+        })
     }
 
-    /*
-     * append() method
-     * a = todo
-     * return self
+    /**
+     * Append (TODO)
+     * 
+     * @method append
+     * @param {mixed}  m
      */
-    $.fn.append = function (a) {
-        return this.each(function (c) {
-            c.appendChild(a[0]);
+    $.fn.append = function (m) {
+        m = $.type(m)=='$' ? m[0] : m;
+        return this.each(function (e) {
+            e.appendChild(m);
         });
     }
 

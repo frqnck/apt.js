@@ -24,8 +24,8 @@
     $[p] =              // allows to wrap DOM elements
     $.fn =              // creates the `fn` alias to `prototype` property
     Array[p].slice(0);  // inherits by cloning the native Array
-    $.fn.each = function (f, v) {
-        a.forEach.call(this, f, v)
+    $.fn.each = function (f, m) {
+        a.forEach.call(this, f, m)
         return this
     }
     $.type = function (m) {
@@ -74,11 +74,11 @@
                 : a[p + 'tachEvent']('on' + t, f)
         })
     }
-    $.fn.on = function (a, b) {
-        return _e(this, a, b, 'add', 'at')
+    $.fn.on = function (t, f) {
+        return _e(this, t, f, 'add', 'at')
     }
-    $.fn.off = function (a, b) {
-        return _e(this, a, b, 'remove', 'de')
+    $.fn.off = function (t, f) {
+        return _e(this, t, f, 'remove', 'de')
     }
     $.fn.html = function(h) {
         return 0 in arguments
