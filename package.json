@@ -1,12 +1,12 @@
 {
   "name": "apt.js",
-  "version": "0.1.3-4",
-  "description": "A few bytes long in-browser library",
+  "version": "0.1.3-5",
+  "description": "A few bytes long in-browser library, jQuery and RequireJS without the payload",
   "author": "Franck Cassedanne <franck@cassedanne.com>",
   "license": "MIT",
   "keywords": [
-    "apt", "apt.js", "framework", "js", "browser", "libray",
-    "javascript", "es5", "qunit", "dom", "event", "ajax", "require"
+    "apt", "apt.js", "framework", "js", "browser", "libray", "module",
+    "javascript", "es5", "qunit", "dom", "event", "ajax", "requirejs", "amd"
   ],
   "main": "dist/apt.min.js",
   "devDependencies": {

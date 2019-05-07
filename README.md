@@ -1,6 +1,6 @@
 # :rocket: Apt.js – a few bytes long in-browser library
 
-Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJs* without the payload. ***Small enough to be embedded in any first-byte***.
+Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJS* without the payload. ***Small enough to be embedded in any first-byte***.
 
 > We have use this in production on Info.com and other properties since early 2009. It allowed use to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwich consumption. great with mobile traffic...
 
