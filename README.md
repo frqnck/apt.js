@@ -16,8 +16,8 @@ Ideally the content of `dist/apt.min.js` would got into the `<head>` of your pag
     // Apply a native Javascript method to a collection. 
     $('ul li').push($('<li class="bar"/>')[0]);
 
-    // Load some files asynchrnously.
-    $.src('my.css', 'my.js');
+    // Load some files asynchrnously then run a callback
+    $.src('my.css', 'my.js', function(success){});
 
     // Extend/add a new method using `Apt.fn`
     $.fn.toggle = function () {
@@ -64,12 +64,18 @@ Above we use the shorthand `$` to invoke `Apt`. Apt does not provide any jQuery 
 ```
 </p></details>
 
-<details><summary><b>src</b> - Load any files (e.g. css, js and jsonp) asynchronously.</summary><p>
+<details><summary><b>src</b> - Load any files (e.g. css, js and jsonp) asynchronously – just like "RequireJS"</summary><p>
 
 ```js
 $.src("/my_styles.css", "/my_scripts.jss", "...");
 $.src("/my_scripts.jsonp");
 ```
+You can also use a callback as the last argument.
+```js
+$.src("/my_scripts.js", function(success) { console.log("success == true, succesfully loaded") } );
+$.src("/my_styles.css", "/my_scripts.jss", "...", function(success) {} );
+```
+
 </p></details>
 
 <details><summary><b>event</b> - Event handling.</summary><p>
