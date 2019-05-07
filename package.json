@@ -1,6 +1,6 @@
 {
   "name": "apt.js",
-  "version": "0.1.3-3",
+  "version": "0.1.3-4",
   "description": "A few bytes long in-browser library",
   "author": "Franck Cassedanne <franck@cassedanne.com>",
   "license": "MIT",
