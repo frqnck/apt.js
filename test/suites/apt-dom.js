@@ -11,19 +11,28 @@ if(from_src) {
 
 QUnit.module('apt-dom', {
   beforeEach: function(){
-    var h = '<ul><li class="f">foo</li><li class="b">bar</li></ul><button id="btn">Click</button>';
+    var h = '<ul class="test"><li class="f">foo</li><li class="b">bar</li></ul><button id="btn">Click</button>';
     $('#apt-fixtures').html(h);
   },
   afterEach: function(){
-    // $('#apt-fixtures').html('');
   }
 });
 
 (function() {
   'use strict';
 
-  QUnit.test('Query the dom', function(assert) {
-    assert.deepEqual($('#apt-fixtures ul li').length, 2);
+  QUnit.test('Query the DOM', function(assert) {
+    assert.deepEqual($('#apt-fixtures ul.test li').length, 2);
+  });
+
+  QUnit.test('Query the DOM, narrowed to provided context', function(assert) {
+    assert.deepEqual($('ul.test li', '#apt-fixtures').length, 2);
+
+    var h = '<div id="bar"><ul class="test"><li\><li\><li\><li\></ul></div>';
+    $('#apt-fixtures').append($(h));
+
+    assert.deepEqual($('ul.test li', '#bar').length, 4);
+    assert.deepEqual($('ul.test li', '#apt-fixtures').length, 6);
   });
 
   QUnit.test('Fail silently for unmatched elements', function(assert) {
@@ -32,7 +41,6 @@ QUnit.module('apt-dom', {
   });
 
   QUnit.test('Wrap a DOM element with $', function(assert) {
-
     assert.ok($(document.getElementById('btn')) instanceof $);
   });
 

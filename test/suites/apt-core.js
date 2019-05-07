@@ -13,15 +13,43 @@ QUnit.test('Apt() - check that it is exposed', function(assert)
   assert.ok( Apt && Apt() );
 });
 
+QUnit.test('$.type() - checks all posssible types', function(assert)
+{
+  assert.equal($.type($()), "$");
+  assert.equal($.type(Apt()), "$");
+  assert.equal($.type(''), "String");
+  assert.equal($.type(64), "Number");
+  assert.equal($.type(true), "Boolean");
+  assert.equal($.type(null), "Null");
+  assert.equal($.type(), "Undefined");
+  assert.equal($.type([]), "Array");
+  assert.equal($.type({}), "Object");
+  assert.equal($.type(function(){}), "Function");
+
+  assert.equal($.type(Error()), "Error");
+  assert.equal($.type(RegExp()), "RegExp");
+});
+
 QUnit.test('Apt() - check for $ alias', function(assert)
 {
   assert.deepEqual($, Apt);
   assert.ok( $() instanceof Apt );
 });
 
-QUnit.skip('Apt() - check has a $ alias (only if global $ is unused)', function(assert)
+QUnit.test('Apt() - check has a $ alias (only if global $ is unused)', function(assert)
 {
-  // TODO: check alias only if $ unused
+  var src = $.src;
+  window.$ = 'something';
+  src("../../src/apt-core.js");
+
+  var done = assert.async();
+  assert.expect(1);
+  Apt(function(){
+    assert.deepEqual(window.$, 'something');
+    done();
+  });
+
+  window.$ = Apt
 });
 
 QUnit.test('$() acts as a DOM-ready wrapper', function(assert)
@@ -80,21 +108,4 @@ QUnit.test('$().foreach() - iterates through all matched elements', function(ass
 	$("#apt-fixtures UL > *").forEach(function(p, i){
 		assert.ok(p === $("#apt-fixtures UL > *")[i]);
 	})
-});
-
-QUnit.test('$.type() - checks all posssible types', function(assert)
-{
-  assert.equal($.type($()), "$");
-  assert.equal($.type(Apt()), "$");
-  assert.equal($.type(''), "String");
-  assert.equal($.type(64), "Number");
-  assert.equal($.type(true), "Boolean");
-  assert.equal($.type(null), "Null");
-  assert.equal($.type(), "Undefined");
-  assert.equal($.type([]), "Array");
-  assert.equal($.type({}), "Object");
-  assert.equal($.type(function(){}), "Function");
-
-  assert.equal($.type(Error()), "Error");
-  assert.equal($.type(RegExp()), "RegExp");
 });

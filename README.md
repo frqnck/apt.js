@@ -1,6 +1,6 @@
 # :rocket: Apt.js – a few bytes long in-browser library
 
-Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJs* without the payload and – ***it is small enough to be embedded in the firt-byte***.
+Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJs* without the payload. ***Small enough to be embedded in any first-byte***.
 
 > We have use this in production on Info.com and other properties since early 2009. It allowed use to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwich consumption. great with mobile traffic...
 
@@ -8,15 +8,18 @@ Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides th
 
 Ideally the content of `dist/apt.min.js` would got into the `<head>` of your page right below your CSS declaration however feel free to add it whichever way you want.
 
+### Short example (below $ == Apt)
 ```html
 <script>
-  // a short example...
   $(function(){ // wait for the DOM to ready
+
+    // Apply a native Javascript method to a collection. 
+    $('ul li').push($('<li class="bar"/>')[0]);
 
     // Load some files asynchrnously.
     $.src('my.css', 'my.js');
 
-    // Extend easily using Apt.fn as such
+    // Extend/add a new method using `Apt.fn`
     $.fn.toggle = function () {
       return this.each(function (e) {
         e.style.display=e.style.display=='none'?'':'none';
@@ -24,38 +27,40 @@ Ideally the content of `dist/apt.min.js` would got into the `<head>` of your pag
     }
   
   // then use as follow..
-  $('ul li').toggle();
+  $('ul li.bar').toggle();
 });
 </script>
 ```
 
-Above we use the shorthand `$` to invoke `Apt` – enjoy!
+Above we use the shorthand `$` to invoke `Apt`. Apt does not provide any jQuery like boilerplate methods but instead exposes the native JavaScript Array object methods to keep the code base light and portable. Apt stands for 'Array Prototype Touchdown'.
 
 ## Apt modules
 
 ### Bundle with `apt.js`
 
-<details><summary><b>core</b> - Provides Apt() (and possibly `$()`) selector.</summary><p>
+<details><summary><b>core</b> - Provides the `Apt()` core objet/selector (and if free, it will also use the `$` shortand).</summary><p>
 
 ```js
-Apt	// Core `Apt` object
-$	// Alias of `Apt` if global `$` is free - jQuery like!
-$.fn	// to extend Apt prototype.
+`Apt()`	// Core `Apt` selector object returns a collection.
+`$`	// Alias of `Apt` if global `$` is free - jQuery like!
+`$.fn`	// to extend Apt prototype.
 ```
 ```js
-$.type()	// Returns type
-$("ul li").each(...);	// iterare over the items.
+`$.type()`	// Returns type
+`$("ul li").each(...);`	// Iterare over the collection items.
 ```
 ```js
-- push & pop 			// Add/remove from the end
-- shift & unshift 		// Remove/add from the beginning
-- slice 			 	// Extracts a section, returns a new
-- splice  			 	// Add/remove from specific location
-- sort 				 	// Sorts
-- reverse 			 	// Reverses
-- concat 			 	// Joins 2 or more
-- join 					// Joins all elements into a string
-- ...
+- `$().push(el)` // Adds one or more elements to the end, and returns the new length of the collection.
+- `$().pop(el)` // Removes and returns the last element from the collection.
+- `$().shift(el)` // Same as pop() but from the beginning.
+- `$().unshift(el)` // Same as push() but from the beginning.
+- `$().slice(0,1)` // Extracts a section, returns a new.
+- `$().slice(0,1,el)` // Add/remove from specific location.
+- `$().sort()`  // Sorts
+- `$().reverse()` // Reverses
+- `$().concat()`  // Joins 2 or more
+- `$().join()`  // Joins all elements into a string
+- and the usual `unique()`, `reduce()`, `indexOf()`, `filter()`, `some()`, `map()`, `every()`, ...
 ```
 </p></details>
 
@@ -134,7 +139,9 @@ tpl.format(""foo", "bar");  //
 
 ## Test suite
 
-### [Test right from your Web browser](https://frqnck.github.io/apt.js/test/index.html)
+The code is covered by extensive unit testing.
+
+### :arrow_forward: [Test right from your Web browser](https://frqnck.github.io/apt.js/test/index.html)
 
 ### Local automated test
 
@@ -161,4 +168,4 @@ This package is also available via [NPM](https://www.npmjs.com/package/apt.js).
 
 ## License
 
-This work is licensed under the MIT license -- see the [LICENSE](MIT-LICENSE) for the full details.<br>Copyright (c) 2009-2018 Franck Cassedanne
+This work is licensed under the MIT license – see the [LICENSE](MIT-LICENSE) for the full details.<br>Copyright (c) 2009-2018 Franck Cassedanne

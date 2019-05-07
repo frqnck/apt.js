@@ -3,15 +3,12 @@
 // MIT license.
 
 !function (a, p, t, $) {
-    // @param {[...]}    a Set as array object [].
-    // @param {String}   p The matched elements ('prototype').
-    // @param {Object}   t The targetted elemtn (document).
-    // @param {internal} $ onternal/private pointer.
 
     /**
      *  Private _
      * 
      * @param {Object | String | Function} m - Mixed value can be either CSS selector/DOM element or a function.
+     * @param {Object | String | Null} c - Context.
      * @param {Private} e - The matched elements
      * @param {internal} i - Index of the matched elements
      * @private
@@ -42,7 +39,8 @@
     /**
      * Main
      * 
-     * @param {Object | String | Function} m - Mixed value either a CSS selector, a DOM element, or a function.
+     * @param {Object | String | Function} m - Mixed value either a CSS selector, string, a DOM element, or a function.
+     * @param {Object | String | Null} c - Context.
      * @return {} A new base class instance or, if DOMready, run the function.
      * @see {@link _} for base class.
      * @see {@link http://www.dustindiaz.com/smallest-domready-ever} and

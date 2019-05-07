@@ -3,8 +3,9 @@
 // MIT license.
 
 var FOO = ['B', 'A', 'R'];
+var LI = $('<li/>')[0];
 
-QUnit.module('apt-core_array', {
+QUnit.module('apt-core_native', {
 	beforeEach: function()
 	{
     this.elements = $("#apt-fixtures UL > *");
@@ -18,33 +19,40 @@ QUnit.test('$() is instance of Array', function(assert)
 	assert.equal($("#apt-fixtures UL > *").length, 2);
 });
 
-QUnit.test('$().push() and $().pop()', function(assert)
+QUnit.test('$().push(element)', function(assert)
 {
-	assert.deepEqual( this.elements.push(FOO), 3 );
-	assert.deepEqual( this.elements.pop(), FOO );
+	assert.deepEqual( this.elements.push(LI), 3);
+	assert.deepEqual( this.elements.push(LI, LI), 5);
 });
 
-QUnit.test('$().shift() and $().unshift()', function(assert)
+QUnit.test('$().pop(element)', function(assert)
 {
-	assert.deepEqual( this.elements.unshift(FOO), 3 );
-	assert.deepEqual( this.elements.shift(FOO), FOO );
+	assert.deepEqual( this.elements.push(LI), 3);
+	assert.deepEqual( this.elements.pop(), LI);
+});
+
+QUnit.test('$().shift(element) and $().unshift(element)', function(assert)
+{
+	assert.deepEqual( this.elements.unshift(LI), 3 );
+	assert.deepEqual( this.elements.shift(LI), LI );
 });
 
 // TODO: check fill IE8 complience!
-QUnit.test('$().slice()', function(assert)
+QUnit.test('$().slice(0, 1)', function(assert)
 {
 	assert.deepEqual( this.elements.slice(0,1), [this.elements[0]] );
 	assert.deepEqual( this.elements.slice(1,2), [this.elements[1]] );
+	assert.deepEqual( $("#apt-fixtures ul li"), this.elements, "The original collection stay unmodified");
 
-	// var last = this.elements.slice(-1)[0];
-	// assert.ok( last.id == 't2', "Should return the last element id" );
+	var last = this.elements.slice(-1)[0];
+	assert.deepEqual( last, this.elements[1], "Should return the last element id" );
 });
 
-QUnit.test('$().splice()', function(assert)
+// Changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+QUnit.test('$().splice(0, 1)', function(assert)
 {
-	assert.deepEqual( this.elements.splice(0,0, FOO), [] );
-	assert.deepEqual( this.elements.splice(0,1), [FOO] );
-	assert.deepEqual( this.elements.sort(), this.elements.reverse().reverse() );
+	assert.deepEqual( this.elements.splice(0,0, LI), [] );
+	assert.deepEqual( this.elements.splice(0,1), [LI] );
 });
 
 QUnit.test('$().sort() and $().reverse()', function(assert)
