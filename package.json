@@ -1,12 +1,25 @@
 {
   "name": "apt.js",
-  "version": "0.1.3-5",
+  "version": "0.1.3-6",
   "description": "A few bytes long in-browser library, jQuery and RequireJS without the payload",
   "author": "Franck Cassedanne <franck@cassedanne.com>",
   "license": "MIT",
   "keywords": [
-    "apt", "apt.js", "framework", "js", "browser", "libray", "module",
-    "javascript", "es5", "qunit", "dom", "event", "ajax", "requirejs", "amd"
+    "apt",
+    "apt.js",
+    "framework",
+    "js",
+    "browser",
+    "libray",
+    "module",
+    "javascript",
+    "es5",
+    "qunit",
+    "dom",
+    "event",
+    "ajax",
+    "requirejs",
+    "amd"
   ],
   "main": "dist/apt.min.js",
   "devDependencies": {
@@ -17,7 +30,8 @@
     "grunt-contrib-qunit": "^3.1.0",
     "grunt-contrib-uglify": "*",
     "grunt-shell": "^3.0.1",
-    "grunt-stripcomments": "^0.7.2"
+    "grunt-stripcomments": "^0.7.2",
+    "browserstack-runner": "^0.9.0"
   },
   "repository": {
     "url": "frqnck/apt.js"
@@ -25,6 +39,7 @@
   "scripts": {
     "lint": "grunt lint",
     "test": "grunt test",
+    "test-stack": "browserstack-runner",
     "dist": "grunt build"
   }
 }
