@@ -2,13 +2,13 @@
 
 Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJS* without the payload. ***Small enough to be embedded in any first-byte***.
 
-> We have use this in production on Info.com and other properties since early 2009. It allowed use to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwich consumption. great with mobile traffic...
+> We have used this in production on Info.com and other properties since early 2009. It allowed us to reduce the payloads of our pages considerably to a just a few KBs and the number of subsequent includes/requests to just a few. Gave us immediate page rendering as it is non-blocking, reduced bandwidth consumption, and is great with mobile traffic...
 
 **Apt** stands for "Array Prototype Touchdown" :football:
 
 ## Instalation
 
-Ideally the content of `dist/apt.min.js` would be embedded right into the `<head>`of your page, below your CSS declaration however feel free to add it whichever way you want.
+Ideally, the content of `dist/apt.min.js` would be embedded right into the `<head>`of your page, below your CSS declaration however feel free to add it whichever way you want.
 
 You can also copy & paste the code block below: 
 
@@ -19,15 +19,20 @@ You can also copy & paste the code block below:
 </script>
 ```
 
+Or, your can source it via unpkg CDN:
+```
+<script src="https://unpkg.com/apt.js/dist/apt.min.js"></script>
+```
+
 ## Usage
 ```html
 <script> // (below $ === Apt)
   $(function(){ // wait for the DOM to ready
 
-    // Apply a native Javascript method to a collection. 
+    // Apply a native JavaScript method to a collection. 
     $('ul li').push($('<li class="bar"/>')[0]);
 
-    // Load some files asynchrnously then run a callback
+    // Load some files asynchronously then run a callback
     $.src('my.css', 'my.js', function(success){});
 
     // Extend/add a new method using `Apt.fn`
@@ -43,13 +48,13 @@ You can also copy & paste the code block below:
 </script>
 ```
 
-Above we use the shorthand `$` to invoke `Apt`. Apt does not provide jQuery like boilerplate methods but instead exposes the native JavaScript Array object methods to keep the code base light and portable. List of modules are listed below.
+Above we use the shorthand `$` to invoke `Apt`. Apt does not provide jQuery-like boilerplate methods, but rather exposes the [native JavaScript Array methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) to keep the code base light, speedy and portable.
 
 ## Apt modules
 
 ### Bundle with `apt.js`
 
-<details><summary><b>core</b> - Provides the `Apt()` core objet/selector (and if free, it will also use the `$` shortand).</summary><p>
+<details><summary><b>Core</b> - Provides the `Apt()` core objet/selector (and if free, it will also use the `$` shortand).</summary><p>
 
 ```js
 `Apt()`	// Core `Apt` selector object returns a collection.
@@ -58,7 +63,7 @@ Above we use the shorthand `$` to invoke `Apt`. Apt does not provide jQuery like
 ```
 ```js
 `$.type()`	// Returns type
-`$("ul li").each(...);`	// Iterare over the collection items.
+`$("ul li").each(...);`	// Iterare over the collection of items.
 ```
 ```js
 - `$().push(el)` // Adds one or more elements to the end, and returns the new length of the collection.
@@ -75,21 +80,21 @@ Above we use the shorthand `$` to invoke `Apt`. Apt does not provide jQuery like
 ```
 </p></details>
 
-<details><summary><b>src</b> - Load any files (e.g. css, js and jsonp) asynchronously – just like "RequireJS"</summary><p>
+<details><summary><b>Src</b> - Load any files (e.g. CSS, JS and JSON/JSONP) asynchronously – just like RequireJS</summary><p>
 
 ```js
-$.src("/my_styles.css", "/my_scripts.jss", "...");
+$.src("/my_styles.css", "/my_scripts.js", "...");
 $.src("/my_scripts.jsonp");
 ```
-You can also use a callback as the last argument.
+A callback can also be used as the last argument. This will be run after the script/stylesheet has finished loading.
 ```js
-$.src("/my_scripts.js", function(success) { console.log("success == true, succesfully loaded") } );
+$.src("/my_scripts.js", function(success) { console.log("success == true, successfully loaded") } );
 $.src("/my_styles.css", "/my_scripts.jss", "...", function(success) {} );
 ```
 
 </p></details>
 
-<details><summary><b>event</b> - Event handling.</summary><p>
+<details><summary><b>Event</b> - Event handling.</summary><p>
 
 ```js
 var callback = function(event){ console.log(event); }
@@ -98,7 +103,7 @@ $("div .link").off('mouseover', callback);
 ```
 </p></details>
 
-<details><summary><b>dom</b> - DOM methods.</summary><p>
+<details><summary><b>DOM</b> - DOM methods.</summary><p>
 
 ```js
 var h = "Some <b>HTML</b>";
@@ -110,11 +115,11 @@ $('ul li').addClass('foo');
 $('ul li').removeClass('bar');
 ```
 ```js
-$('.offers').css('diplay', 'none');
+$('.offers').css('display', 'none');
 ```
 </p></details>
 
-<details><summary><b>ajax</b> - Ajax/XMLHttpRequest loader.</summary><p>
+<details><summary><b>Ajax</b> - Ajax/XMLHttpRequest loader.</summary><p>
 
 ```js
 var callback = function(data, success, xhr){ console.log(data, success, xhr); }
@@ -127,12 +132,12 @@ api.send("foo=bar&buz=bar");
 
 ### Additionals extra
 
-<details><summary><b>utils</b> (apt-utils.js) - collection of small, helpful utilities for common tasks.</summary><p>
+<details><summary><b>Utils</b> (apt-utils.js) - collection of small, helpful utilities for common tasks.</summary><p>
 
 ```js
-$.getUrlVars();			//
+$.getUrlVars();     	//
 $.getCookie('name');	//
-$.rmTags(html);			//
+$.rmTags(html);		//
 ```
 ```js
 var tpl = "Template {0} - {1}";
@@ -141,16 +146,16 @@ tpl.format(""foo", "bar");  //
 </p></details>
 
 <details>
-	<summary><b>shims</b> (apt-utils.js) - ECMAScript 5 compatibility shims for legacy browser; support IE8 and below including IE9 Quirk mode.</summary>
+	<summary><b>Shims</b> (apt-utils.js) - ECMAScript 5 compatibility shims for legacy browser; support IE8 and below including IE9 Quirk mode.</summary>
 
 ```js
-- forEach()			-applies a callback to all the elements.
-- map()				- creates new array thru callback.
+- forEach()			- applies a callback to all the elements.
+- map()				- creates new array via callback.
 - every() 			- tests a callback against the elements
 - some()			- similar to every() but stop at first true!
 - filter()          - creates new array with the elements that pass the test.
 - indexOf			- returns the index of first matching element.
-- reduce() 			- Iteratively reduce the array to a single value using a callback
+- reduce() 			- Iteratively reduce the array to a single value using a callback.
 ```
 </details>
 
@@ -162,7 +167,7 @@ The code is covered by extensive unit testing.
 
 ### Local automated test
 
-We use headless Chrome and PhantomJS to run our automated testing. Installation is straight forward just run 
+We use headless Chrome and PhantomJS to run automated testing. Installation is straight forward just run: 
 
 ~~~ sh
 $ yarn install
@@ -174,7 +179,7 @@ To run the automated tests:
 $ yarn test
 ~~~
 
-You can replace `yarn` by `npm` if that what rock your boat.
+You can replace `yarn` with `npm` if that's what rocks your boat.
 
 This package is also available via [NPM](https://www.npmjs.com/package/apt.js).
 
