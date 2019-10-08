@@ -1,4 +1,4 @@
-# :rocket: Apt.js – a few bytes long in-browser library [![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=QVU1Mk5YclBuZURCQlp4Qlc5SFRvNVVTZFJZSnNISWNEeGZ6K2d6UjF2MD0tLU9naWlLcVFZZXJPZWIrWEhjV1pHS3c9PQ==--df9cb22735d60719d449c9567f083b0ea7626f91)](https://automate.browserstack.com/public-build/QVU1Mk5YclBuZURCQlp4Qlc5SFRvNVVTZFJZSnNISWNEeGZ6K2d6UjF2MD0tLU9naWlLcVFZZXJPZWIrWEhjV1pHS3c9PQ==--df9cb22735d60719d449c9567f083b0ea7626f91)
+# :rocket: Apt.js – a few bytes long in-browser library [![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=WTFKNjdDNGRWRy91WTkzWWVDODhFUnRZSWtwZ0pxWnViSEZvd2dZaWFuZz0tLVRlTWpEWVlyeTZEQ0dFVkloOVlsSFE9PQ==--1eda37a67f26d1e9cd02922a164b49746cc54bcc)](https://automate.browserstack.com/public-build/WTFKNjdDNGRWRy91WTkzWWVDODhFUnRZSWtwZ0pxWnViSEZvd2dZaWFuZz0tLVRlTWpEWVlyeTZEQ0dFVkloOVlsSFE9PQ==--1eda37a67f26d1e9cd02922a164b49746cc54bcc)
 
 Minimalist, fast, rather-slim and pretty concise JavaScript library. Provides the flavour of both *jQuery* and *RequireJS* without the payload. ***Small enough to be embedded in any first-byte***.
 
